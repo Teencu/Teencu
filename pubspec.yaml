@@ -67,6 +67,22 @@ flutter:
     - assets/icons/google.png
     - assets/icons/apple.png
     - assets/icons/facebook.png
+    - assets/avatars/istj.png
+    - assets/avatars/isfj.png
+    - assets/avatars/infj.png
+    - assets/avatars/intj.png
+    - assets/avatars/istp.png
+    - assets/avatars/isfp.png
+    - assets/avatars/infp.png
+    - assets/avatars/intp.png
+    - assets/avatars/estp.png
+    - assets/avatars/esfp.png
+    - assets/avatars/enfp.png
+    - assets/avatars/entp.png
+    - assets/avatars/estj.png
+    - assets/avatars/esfj.png
+    - assets/avatars/enfj.png
+    - assets/avatars/entj.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

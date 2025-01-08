@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teencu/question_mbti.dart';
 
 class MbtiCategoriesPage extends StatelessWidget {
   @override
@@ -122,8 +123,12 @@ class MbtiCategoriesPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Navigasi ke halaman tes
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Mulai Tes MBTI!')),
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(content: Text('Mulai Tes MBTI!')),
+                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => QuestionMbti()), // Ganti dengan halaman tes MBTI Anda
                         );
                       },
                       style: ElevatedButton.styleFrom(
