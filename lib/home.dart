@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teencu/expl_mbti.dart';
+import 'package:teencu/leaderboard.dart';
+import 'package:teencu/menu_chat.dart';
 import 'package:teencu/profile_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -72,11 +74,19 @@ class HomePage extends StatelessWidget {
             // Tombol Chat
             _buildButton(context, "Chat", Color.fromARGB(500, 248,55,88), () {
               // Navigasi ke halaman Chat
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MenuChat()),
+              );
             }),
             SizedBox(height: 16),
             // Tombol Leaderboard
             _buildButton(context, "Leaderboard", Color.fromARGB(500, 248,55,88), () {
               // Navigasi ke halaman Leaderboard
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Leaderboard()),
+              );
             }),
           ],
         ),
