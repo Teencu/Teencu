@@ -9,11 +9,30 @@ class QuestionMbti extends StatefulWidget {
 class _QuestionMbtiState extends State<QuestionMbti> {
   int? selectedRating; // Variabel untuk menyimpan nilai rating pengguna
   final List<String> questions = [
+    // Ekstrovert (E) vs Introvert (I)
     "Saya merasa lebih berenergi saat berada di acara sosial atau bersama banyak orang.",
     "Saya lebih suka menghabiskan waktu sendiri untuk menyegarkan pikiran.",
     "Saya suka berbicara untuk memecahkan masalah daripada merenungkannya dalam pikiran.",
     "Saya cenderung berbicara lebih banyak daripada mendengarkan dalam percakapan.",
-    "Saya merasa nyaman bekerja dalam kelompok besar."
+    "Saya merasa nyaman bekerja dalam kelompok besar.",
+    // Sensing (S) vs Intuition (I)
+    "Saya lebih suka detail yang konkret dibandingkan ide-ide abstrak.",
+    "Saya fokus pada masa kini daripada memikirkan masa depan yang jauh.",
+    "Saya senang mengandalkan fakta daripada intuisi atau perasaan.",
+    "Saya sering memperhatikan detail kecil yang sering dilewatkan orang lain.",
+    "Saya lebih senang melihat \"gambaran besar\" daripada fokus pada detail kecil.",
+    // Thinking (T) vs Feeling (F)
+    "Saya membuat keputusan berdasarkan logika dan fakta, bukan emosi.",
+    "Saya lebih peduli tentang keadilan daripada menjaga perasaan orang lain.",
+    "Saya sering mempertimbangkan konsekuensi logis dalam setiap tindakan saya.",
+    "Saya lebih memilih menyelesaikan masalah daripada memikirkan dampak emosionalnya.",
+    "Saya cenderung mengambil keputusan dengan mempertimbangkan perasaan semua pihak.",
+    // Judging (J) vs Perceiving (P)
+    "Saya lebih suka merencanakan segalanya sebelumnya.",
+    "Saya merasa nyaman mengikuti jadwal dan struktur.",
+    "Saya lebih suka fleksibilitas daripada memiliki jadwal yang kaku.",
+    "Saya sering menunda pekerjaan hingga mendekati batas waktu.",
+    "Saya senang mengambil keputusan cepat dan menyelesaikan tugas dengan cepat.",
   ];
 
   int currentQuestionIndex = 0; // Pertanyaan yang ditampilkan saat ini
@@ -176,6 +195,7 @@ class _QuestionMbtiState extends State<QuestionMbti> {
                         if (currentQuestionIndex ==
                             questions.length - 1) {
                           // Semua pertanyaan dijawab, arahkan ke halaman hasil
+                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(
