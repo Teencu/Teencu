@@ -13,7 +13,7 @@ class MbtiCategoriesPage extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
-            color: Colors.white
+            color: Colors.white,
           ),
         ),
         centerTitle: true,
@@ -24,7 +24,7 @@ class MbtiCategoriesPage extends StatelessWidget {
           },
         ),
       ),
-      body: Stack(
+      body: Column(
         children: [
           // Bagian atas dengan latar belakang putih
           Container(
@@ -42,7 +42,6 @@ class MbtiCategoriesPage extends StatelessWidget {
               ],
             ),
           ),
-
           // Bagian bawah untuk konten utama
           Expanded(
             child: Container(
@@ -63,7 +62,6 @@ class MbtiCategoriesPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-
                     // Deskripsi
                     Text(
                       'Mulai tes untuk menemukan avatar yang sesuai dengan hasil tes MBTI mu !!!',
@@ -74,7 +72,6 @@ class MbtiCategoriesPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
-
                     // Grid Avatar MBTI
                     Expanded(
                       child: GridView.builder(
@@ -118,17 +115,14 @@ class MbtiCategoriesPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-
                     // Tombol Mulai Tes
                     ElevatedButton(
                       onPressed: () {
-                        // Navigasi ke halaman tes
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   SnackBar(content: Text('Mulai Tes MBTI!')),
-                        // );
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => QuestionMbti()), // Ganti dengan halaman tes MBTI Anda
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  QuestionMbti()), // Ganti dengan halaman tes MBTI Anda
                         );
                       },
                       style: ElevatedButton.styleFrom(
