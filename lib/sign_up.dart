@@ -1,6 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:math';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUpPage> {
+  String? _email;
+  String? _password;
+  String? _cpassword;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +46,14 @@ class SignUpPage extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.grey[200],
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'\s')),
+              ],
+              onChanged: (value){
+                setState((){
+                  _email = value;
+                });
+              },
             ),
             SizedBox(height: 16),
             // Password TextField
@@ -45,6 +69,14 @@ class SignUpPage extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.grey[200],
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'\s')),
+              ],
+              onChanged: (value){
+                setState((){
+                  _password = value;
+                });
+              },
             ),
             SizedBox(height: 16),
             // Confirm Password TextField
@@ -60,6 +92,14 @@ class SignUpPage extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.grey[200],
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'\s')),
+              ],
+              onChanged: (value){
+                setState((){
+                  _cpassword = value;
+                });
+              },
             ),
             SizedBox(height: 16),
             // Terms and conditions
@@ -73,7 +113,7 @@ class SignUpPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Register action
+                  
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(500, 248,55,88),
@@ -145,6 +185,53 @@ class SignUpPage extends StatelessWidget {
         height: 24,
         width: 24,
       ),
+    );
+  }
+
+  String generateUsername() {
+    const prefix = "user-";
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    Random random = Random();
+    return prefix + List.generate(32, (index) => characters[random.nextInt(characters.length)]).join();
+  }
+
+  void submitForm() async{
+    _email = _email?.trim();
+    _password = _password?.trim();
+    _cpassword = _cpassword?.trim();
+
+    if (_password != _cpassword){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Konfirmasi password tidak sama dengan password yang dimasukkan.')),
+      );
+      return;
+    }
+    var emailQuery = await firestore
+      .collection('users')
+      .where('email', isEqualTo: _email)
+      .get();
+    if (emailQuery.docs.isNotEmpty){
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Email sudah terpakai, ganti email lain.')),
+      );
+      return;
+    }
+    UserCredential userCredential = await FirebaseAuth.instance
+      .createUserWithEmailAndPassword(email: _email!, password: _password!);
+
+    String uid = userCredential.user!.uid;
+    await firestore.collection('users').doc(uid).set({
+      'username': generateUsername(),
+      'email': _email,
+      'points': 0,
+      'lastMbti': '',
+      'lastMbtiDate': FieldValue.serverTimestamp(),
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Registrasi Berhasil!')),
     );
   }
 }

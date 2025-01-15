@@ -1,8 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'sign_in.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb){
+    await Firebase.initializeApp(options: const FirebaseOptions(
+      apiKey: "AIzaSyDucwHqIIOOCKDg3qpLjtCw1-8OfREnu4Q",
+      authDomain: "teencu.firebaseapp.com",
+      projectId: "teencu",
+      storageBucket: "teencu.firebasestorage.app",
+      messagingSenderId: "341428856100",
+      appId: "1:341428856100:web:fd44031df060ccc7afffb1",
+      measurementId: "G-EYCBERYH7Z"
+    ));
+  } else {
+    await Firebase.initializeApp();
+  }
   runApp(MyApp());
 }
 

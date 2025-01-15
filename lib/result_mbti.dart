@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teencu/home.dart';
+import 'package:teencu/menu_chat.dart';
 
 class ResultMbti extends StatelessWidget {
   final String mbtiType; // Tipe MBTI (contoh: ENFP, INFJ)
@@ -124,7 +125,7 @@ class ResultMbti extends StatelessWidget {
                         const SizedBox(height: 30),
 
                         // Kepribadian yang cocok
-                        Text(
+                        const Text(
                           "Kepribadian yang cocok dengan Anda:",
                           style: TextStyle(
                             fontSize: 18,
@@ -153,7 +154,7 @@ class ResultMbti extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 Text(
                                   type,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -180,7 +181,7 @@ class ResultMbti extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 16, horizontal: 24),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -198,7 +199,10 @@ class ResultMbti extends StatelessWidget {
                             // Tombol Chat
                             ElevatedButton(
                               onPressed: () {
-                                // Logika untuk memulai chat
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MenuChat()),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,

@@ -1,9 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teencu/home.dart';
+import 'package:teencu/sign_up.dart' as signup;
 
-import 'sign_up.dart';
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-class LoginPage extends StatelessWidget {
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String? _email;
+  String? _password;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +46,14 @@ class LoginPage extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.grey[200],
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'\s')),
+              ],
+              onChanged: (value){
+                setState((){
+                  _email = value;
+                });
+              },
             ),
             SizedBox(height: 16),
             // Password TextField
@@ -48,6 +69,14 @@ class LoginPage extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.grey[200],
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'\s')),
+              ],
+              onChanged: (value){
+                setState((){
+                  _password = value;
+                });
+              },
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -67,10 +96,7 @@ class LoginPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
+                  submitForm();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(500, 248,55,88),
@@ -120,7 +146,7 @@ class LoginPage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUpPage()),
+                      MaterialPageRoute(builder: (context) => const signup.SignUpPage()),
                     );
                   },
                   child: Text(
@@ -147,5 +173,33 @@ class LoginPage extends StatelessWidget {
         width: 24,
       ),
     );
+  }
+
+  void submitForm() async{
+    _email = _email?.trim();
+    _password = _password?.trim();
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: _email!, password: _password!);
+
+      // Berhasil login, arahkan ke halaman utama
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message = 'Terjadi kesalahan.';
+
+      if (e.code == 'user-not-found') {
+        message = 'Pengguna dengan email ini tidak ditemukan.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Password salah.';
+      }
+
+      // Tampilkan pesan error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
   }
 }
