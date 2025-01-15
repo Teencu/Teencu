@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'room_chat.dart';
 
 class MenuChat extends StatelessWidget {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  
   final List<Map<String, String>> recommendedUsers = [
-    {'name': 'INFJ #001', 'avatar': 'assets/avatars/infj.png'},
-    {'name': 'ENTP #002', 'avatar': 'assets/avatars/entp.png'},
-    {'name': 'ENFP #003', 'avatar': 'assets/avatars/enfp.png'},
-    {'name': 'INTJ #004', 'avatar': 'assets/avatars/intj.png'},
+    {'name': 'INFJ', 'avatar': 'assets/avatars/infj.png'},
+    {'name': 'ENTP', 'avatar': 'assets/avatars/entp.png'},
+    {'name': 'ENFP', 'avatar': 'assets/avatars/enfp.png'},
+    {'name': 'INTJ', 'avatar': 'assets/avatars/intj.png'},
   ];
 
   final List<Map<String, String>> chatList = [

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:teencu/expl_mbti.dart';
 import 'package:teencu/leaderboard.dart';
@@ -5,6 +7,10 @@ import 'package:teencu/menu_chat.dart';
 import 'package:teencu/profile_page.dart';
 
 class HomePage extends StatelessWidget {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  String mbti = '';
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,16 +70,65 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 40),
             // Tombol Tes MBTI
-            _buildButton(context, "Tes MBTI", Color.fromARGB(500, 248,55,88), () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MbtiExplanationPage()),
-                );
+            _buildButton(context, "Tes MBTI", Color.fromARGB(500, 248,55,88), () async {
+              mbti = await getUserMbti();
+                if (mbti == ''){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MbtiExplanationPage()),
+                  );
+                  return;
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Peringatan'),
+                        content: Text('Apakah kamu ingin tes MBTI lagi?'),
+                        actions: [
+                          TextButton(
+                            style: TextButton.styleFrom(foregroundColor: Colors.black),
+                            onPressed: () {
+                              Navigator.pop(context); // Menutup dialog
+                            },
+                            child: Text('Nggak dulu deh'),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(foregroundColor: Colors.black),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => MbtiExplanationPage()),
+                              );
+                            },
+                            child: Text('Iya nih'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },),
             SizedBox(height: 16),
             // Tombol Chat
             _buildButton(context, "Chat", Color.fromARGB(500, 248,55,88), () {
-              // Navigasi ke halaman Chat
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Peringatan'),
+                    content: Text('Kamu belum mengisi tes MBTI. Silahkan tes terlebih dahulu untuk menggunakan fitur chat.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          return;
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MenuChat()),
@@ -113,5 +168,13 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<String> getUserMbti() async{
+    DocumentSnapshot doc = await firestore.collection('users').doc(user!.uid).get();
+    if (doc.exists && doc.data() != null) {
+      mbti = doc.get('lastMbti') as String;
+    }
+    return mbti;
   }
 }

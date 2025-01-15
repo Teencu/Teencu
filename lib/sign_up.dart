@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 
+import 'package:teencu/home.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -113,7 +115,9 @@ class _SignUpState extends State<SignUpPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  
+                  if (_email != null && _password != null && _cpassword != null){
+                    submitForm();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(500, 248,55,88),
@@ -195,7 +199,7 @@ class _SignUpState extends State<SignUpPage> {
     return prefix + List.generate(32, (index) => characters[random.nextInt(characters.length)]).join();
   }
 
-  void submitForm() async{
+  void submitForm() async {
     _email = _email?.trim();
     _password = _password?.trim();
     _cpassword = _cpassword?.trim();
@@ -220,6 +224,10 @@ class _SignUpState extends State<SignUpPage> {
     UserCredential userCredential = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(email: _email!, password: _password!);
 
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Registrasi Berhasil!')),
+    );
     String uid = userCredential.user!.uid;
     await firestore.collection('users').doc(uid).set({
       'username': generateUsername(),
@@ -230,8 +238,6 @@ class _SignUpState extends State<SignUpPage> {
       'createdAt': FieldValue.serverTimestamp(),
     });
     // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Registrasi Berhasil!')),
-    );
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 }

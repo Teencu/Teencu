@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:teencu/sign_in.dart';
 
 
 class ProfilePage extends StatelessWidget {
@@ -11,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
+    String? userMbti;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(500, 248, 55, 88),
@@ -46,7 +47,7 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 12),
               Text(
-                'ENFP #001',
+                'Hello!',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -93,6 +94,7 @@ class ProfilePage extends StatelessWidget {
                           );
                         },
                       ),
+                      SizedBox(height: 24),
                       FutureBuilder<String?>(
                         future: getLastMbti(user?.uid ?? ''),
                         builder: (context, snapshot) {
@@ -105,18 +107,18 @@ class ProfilePage extends StatelessWidget {
                             return Text('Error: ${snapshot.error}');
                           }
 
-                          String? userMbti = snapshot.data;
+                          userMbti = snapshot.data;
                           return _buildProfileDetail(
                             label: 'YOUR LAST MBTI',
-                            value: userMbti ?? '-',
+                            value: userMbti?.trim() ?? '-',
                           );
                         },
                       ),
-                      FutureBuilder<DateTime?>(
+                      SizedBox(height: 24),
+                      FutureBuilder<Timestamp?>(
                         future: getLastMbtiDate(user?.uid ?? ''),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return CircularProgressIndicator();
                           }
 
@@ -124,8 +126,16 @@ class ProfilePage extends StatelessWidget {
                             return Text('Error: ${snapshot.error}');
                           }
 
-                          DateTime? userMbtiDate = snapshot.data;
-                          String tanggal = DateFormat('yyyy-MM-dd - kk:mm').format(userMbtiDate!) ?? '-';
+                          Timestamp? _userMbtiDate = snapshot.data;
+                          DateTime userMbtiDate = _userMbtiDate!.toDate();
+
+                          // Menangani null case untuk userMbtiDate
+                          String tanggal = '-';
+                          if (userMbti != ''){
+                            tanggal = userMbtiDate != null
+                                ? DateFormat('yyyy-MM-dd - kk:mm').format(userMbtiDate)
+                                : '-';
+                          }
                           return _buildProfileDetail(
                             label: 'YOUR LAST MBTI TEST',
                             value: tanggal,
@@ -137,8 +147,10 @@ class ProfilePage extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            // Logika logout
+                          onPressed: () async {
+                            await FirebaseAuth.instance.signOut();
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(500, 248, 55, 88),
@@ -229,7 +241,7 @@ class ProfilePage extends StatelessWidget {
       return null;
     }
   }
-  Future<DateTime?> getLastMbtiDate(String docId) async {
+  Future<Timestamp?> getLastMbtiDate(String docId) async {
     try {
       DocumentSnapshot doc = await FirebaseFirestore.instance
           .collection('users')
@@ -237,7 +249,7 @@ class ProfilePage extends StatelessWidget {
           .get();
 
       if (doc.exists && doc.data() != null) {
-        return doc.get('lastMbtiDate') as DateTime;
+        return doc.get('lastMbtiDate') as Timestamp;
       } else {
         return null;
       }

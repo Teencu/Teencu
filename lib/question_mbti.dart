@@ -207,8 +207,8 @@ class _QuestionMbtiState extends State<QuestionMbti> {
                           String desc = data.description;
                           List<String> comp = data.compatibleTypes;
                           String uid = user!.uid;
-                          await firestore.collection('users').doc(uid).set({
-                            'lastMbti': name,
+                          await firestore.collection('users').doc(uid).update({
+                            'lastMbti': type,
                             'lastMbtiDate': FieldValue.serverTimestamp(),
                           });
                           Navigator.push(

@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
             // Username/Email TextField
             TextField(
               decoration: InputDecoration(
-                hintText: "Username or Email",
+                hintText: "Email",
                 prefixIcon: Icon(Icons.person),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -96,7 +96,9 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  submitForm();
+                  if (_email != null && _password != null){
+                    submitForm();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(500, 248,55,88),
@@ -189,12 +191,11 @@ class _LoginPageState extends State<LoginPage> {
       );
     } on FirebaseAuthException catch (e) {
       String message = 'Terjadi kesalahan.';
-
-      if (e.code == 'user-not-found') {
+      if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
         message = 'Pengguna dengan email ini tidak ditemukan.';
       } else if (e.code == 'wrong-password') {
         message = 'Password salah.';
-      }
+      } 
 
       // Tampilkan pesan error
       ScaffoldMessenger.of(context).showSnackBar(
