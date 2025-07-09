@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Leaderboard extends StatelessWidget {
+  const Leaderboard({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Data dummy untuk leaderboard
@@ -16,9 +18,9 @@ class Leaderboard extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(500, 248, 55, 88),
+        backgroundColor: const Color.fromARGB(500, 248, 55, 88),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Leaderboard',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -28,7 +30,7 @@ class Leaderboard extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -38,16 +40,16 @@ class Leaderboard extends StatelessWidget {
         children: [
           // Background merah
           Container(
-            color: Color.fromARGB(500, 248, 55, 88),
+            color: const Color.fromARGB(500, 248, 55, 88),
           ),
           // Konten utama
           Column(
             children: [
-              SizedBox(height: 100),
+              const SizedBox(height: 100),
               // Daftar pemain
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(20),
@@ -59,8 +61,8 @@ class Leaderboard extends StatelessWidget {
                       final player = leaderboard[index];
                       final bool isTop3 = index < 3; // Cek apakah pemain termasuk top 3
                       return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                         decoration: BoxDecoration(
                           color: isTop3
                               ? player['color'] ?? Colors.white
@@ -84,7 +86,7 @@ class Leaderboard extends StatelessWidget {
                               backgroundColor: isTop3
                                   ? Colors.pink.shade900
                                   : Colors.pink.shade400,
-                              child: Icon(Icons.person, color: Colors.white),
+                              child: const Icon(Icons.person, color: Colors.white),
                             ),
                             const SizedBox(width: 16),
                             // Nama dan jumlah goals
@@ -101,7 +103,7 @@ class Leaderboard extends StatelessWidget {
                                   ),
                                   Text(
                                     '${player['goals']} goals',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.black87,
                                     ),
                                   ),

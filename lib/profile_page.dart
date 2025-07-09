@@ -2,12 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:teencu/home.dart';
 import 'package:teencu/sign_in.dart';
+import 'package:teencu/wrapper/auth_wrapper.dart';
 
 
 class ProfilePage extends StatelessWidget {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
+
+  ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +19,16 @@ class ProfilePage extends StatelessWidget {
     String? userMbti;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(500, 248, 55, 88),
+        backgroundColor: const Color.fromARGB(500, 248, 55, 88),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Account',
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -34,19 +38,29 @@ class ProfilePage extends StatelessWidget {
         children: [
           // Background warna pink
           Container(
-            color: Color.fromARGB(500, 248, 55, 88),
+            color: const Color.fromARGB(500, 248, 55, 88),
           ),
           // Konten utama
           Column(
             children: [
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               // Avatar dan nama
-              CircleAvatar(
-                radius: 50, // Ukuran avatar
-                backgroundImage: AssetImage("assets/icons/profile_avatar.png"),
+              FutureBuilder<String?>(
+                future: getLastMbti(user?.uid ?? ''),
+                builder: (context, snapshot) {
+                  String pict = 'anon'; // default
+                  if (snapshot.hasData && snapshot.data != null) {
+                    pict = snapshot.data!.trim().toLowerCase();
+                  }
+
+                  return CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage("avatars/$pict.png"),
+                  );
+                },
               ),
-              SizedBox(height: 12),
-              Text(
+              const SizedBox(height: 12),
+              const Text(
                 'Hello!',
                 style: TextStyle(
                   fontSize: 20,
@@ -54,12 +68,12 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               // Kontainer putih untuk detail profil
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.all(24),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(20),
@@ -73,14 +87,14 @@ class ProfilePage extends StatelessWidget {
                         label: 'EMAIL ADDRESS',
                         value: user?.email ?? 'Unknown',
                       ),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       // Points
                       FutureBuilder<int?>(
                         future: getPoints(user?.uid ?? ''),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           }
 
                           if (snapshot.hasError) {
@@ -94,13 +108,13 @@ class ProfilePage extends StatelessWidget {
                           );
                         },
                       ),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       FutureBuilder<String?>(
                         future: getLastMbti(user?.uid ?? ''),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           }
 
                           if (snapshot.hasError) {
@@ -114,20 +128,20 @@ class ProfilePage extends StatelessWidget {
                           );
                         },
                       ),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       FutureBuilder<Timestamp?>(
                         future: getLastMbtiDate(user?.uid ?? ''),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           }
 
                           if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           }
 
-                          Timestamp? _userMbtiDate = snapshot.data;
-                          DateTime userMbtiDate = _userMbtiDate!.toDate();
+                          Timestamp? userMbtiDate0 = snapshot.data;
+                          DateTime userMbtiDate = userMbtiDate0!.toDate();
 
                           // Menangani null case untuk userMbtiDate
                           String tanggal = '-';
@@ -142,19 +156,22 @@ class ProfilePage extends StatelessWidget {
                           );
                         },
                       ),
-                      Spacer(),
+                      const Spacer(),
                       // Tombol Logout
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
                             await FirebaseAuth.instance.signOut();
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (_) => const AuthWrapper()),
+                              (route) => false,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(500, 248, 55, 88),
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            backgroundColor: const Color.fromARGB(500, 248, 55, 88),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -194,10 +211,10 @@ class ProfilePage extends StatelessWidget {
             color: Colors.grey[700],
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: Colors.black,

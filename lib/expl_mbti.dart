@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:teencu/mbti_cat.dart';
 
 class MbtiExplanationPage extends StatelessWidget {
+  const MbtiExplanationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -10,7 +12,7 @@ class MbtiExplanationPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.pink,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Apa itu Tes MBTI?',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -20,7 +22,7 @@ class MbtiExplanationPage extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context); // Kembali ke halaman sebelumnya
           },
@@ -36,19 +38,19 @@ class MbtiExplanationPage extends StatelessWidget {
           // Konten utama
           Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Gambar ilustrasi MBTI
               Image.asset(
                 "assets/teencu_logo.png", // Logo Teencu di tengah
                 height: 100,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Bagian konten penjelasan
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(24),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
                     color: Colors.pink,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(30),
@@ -58,7 +60,7 @@ class MbtiExplanationPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Apa itu Tes MBTI?',
                           style: TextStyle(
                             fontSize: 24,
@@ -67,7 +69,7 @@ class MbtiExplanationPage extends StatelessWidget {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        Text(
+                        const Text(
                           'Tes MBTI adalah alat psikologi yang dirancang untuk membantu seseorang memahami kepribadian mereka berdasarkan teori psikologi Carl Jung. Tes ini mengelompokkan kepribadian ke dalam 16 tipe yang berbeda, berdasarkan kombinasi dari empat dimensi utama:',
                           style: TextStyle(
                             fontSize: 16,
@@ -91,7 +93,7 @@ class MbtiExplanationPage extends StatelessWidget {
                           '4. Judging (J) vs. Perceiving (P)',
                           'Menggambarkan gaya hidup seseorang—terorganisir dan terencana (Judging) atau fleksibel dan spontan (Perceiving).',
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         // Tombol Selanjutnya
                         SizedBox(
                           width: double.infinity,
@@ -100,17 +102,17 @@ class MbtiExplanationPage extends StatelessWidget {
                               // Navigasi ke halaman berikutnya, misalnya tes MBTI
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => MbtiCategoriesPage()), // Ganti dengan halaman tes MBTI Anda
+                                MaterialPageRoute(builder: (context) => const MbtiCategoriesPage()), // Ganti dengan halaman tes MBTI Anda
                               );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
-                              padding: EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Selanjutnya',
                               style: TextStyle(
                                 fontSize: 18,
@@ -141,16 +143,16 @@ class MbtiExplanationPage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             description,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               color: Colors.white,
               height: 1.5,

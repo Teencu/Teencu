@@ -19,23 +19,21 @@ class MenuChat extends StatelessWidget {
     {'name': 'INFJ #001', 'message': 'Have a good day 🌸', 'time': '2 min ago'},
   ];
 
+  MenuChat({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(500, 248, 55, 88),
+        backgroundColor: const Color.fromARGB(500, 248, 55, 88),
         elevation: 0,
-        title: Text(
-          'Teencu',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: Colors.white,
-          ),
+        title: Image.asset(
+          "assets/teencu_logo.png", // Logo Teencu di tengah
+          height: 100,
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -58,7 +56,7 @@ class MenuChat extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Direkomendasikan untuk anda:',
                       style: TextStyle(
                         color: Colors.black,
@@ -83,7 +81,7 @@ class MenuChat extends StatelessWidget {
                                 const SizedBox(height: 8),
                                 Text(
                                   user['name']!,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -100,7 +98,7 @@ class MenuChat extends StatelessWidget {
               // Bagian daftar chat
               Expanded(
                 child: Container(
-                  color: Color.fromARGB(500, 248, 55, 88), // Background pink
+                  color: const Color.fromARGB(500, 248, 55, 88), // Background pink
                   child: ListView.builder(
                     itemCount: chatList.length,
                     itemBuilder: (context, index) {
@@ -141,7 +139,7 @@ class MenuChat extends StatelessWidget {
                                     children: [
                                       Text(
                                         chat['name']!,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
                                           color: Colors.black,
@@ -160,7 +158,7 @@ class MenuChat extends StatelessWidget {
                                 ),
                                 Text(
                                   chat['time']!,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey,
                                   ),

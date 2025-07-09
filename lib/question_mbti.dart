@@ -5,6 +5,8 @@ import 'package:teencu/model/mbti.dart';
 import 'package:teencu/result_mbti.dart';
 
 class QuestionMbti extends StatefulWidget {
+  const QuestionMbti({super.key});
+
 
   @override
   _QuestionMbtiState createState() => _QuestionMbtiState();

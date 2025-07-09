@@ -4,7 +4,7 @@ class RoomChat extends StatelessWidget {
   final String userName;
   final String avatar;
 
-  RoomChat({required this.userName, required this.avatar});
+  RoomChat({super.key, required this.userName, required this.avatar});
 
   final List<Map<String, String>> messages = [
     {'message': 'Hello! Mila How are you?', 'time': '09:25 AM', 'type': 'received'},
@@ -27,14 +27,14 @@ class RoomChat extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                Text('Active now', style: TextStyle(fontSize: 14, color: Colors.white70)),
+                Text(userName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                const Text('Active now', style: TextStyle(fontSize: 14, color: Colors.white70)),
               ],
             ),
           ],
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -66,12 +66,12 @@ class RoomChat extends StatelessWidget {
                         children: [
                           Text(
                             message['message']!,
-                            style: TextStyle(color: Colors.black87),
+                            style: const TextStyle(color: Colors.black87),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             message['time']!,
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                            style: const TextStyle(color: Colors.grey, fontSize: 12),
                           ),
                         ],
                       ),
@@ -85,10 +85,10 @@ class RoomChat extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             color: Colors.white,
-            child: Row(
+            child: const Row(
               children: [
                 Icon(Icons.attach_file, color: Colors.grey),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Expanded(
                   child: TextField(
                     decoration: InputDecoration(

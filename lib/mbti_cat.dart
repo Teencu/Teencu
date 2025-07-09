@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:teencu/question_mbti.dart';
 
 class MbtiCategoriesPage extends StatelessWidget {
+  const MbtiCategoriesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Golongan MBTI',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -18,7 +20,7 @@ class MbtiCategoriesPage extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context); // Kembali ke halaman sebelumnya
           },
@@ -53,7 +55,7 @@ class MbtiCategoriesPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 16),
                     // Teks Judul
-                    Text(
+                    const Text(
                       '16 Golongan MBTI',
                       style: TextStyle(
                         fontSize: 24,
@@ -63,7 +65,7 @@ class MbtiCategoriesPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     // Deskripsi
-                    Text(
+                    const Text(
                       'Mulai tes untuk menemukan avatar yang sesuai dengan hasil tes MBTI mu !!!',
                       style: TextStyle(
                         fontSize: 16,
@@ -76,7 +78,7 @@ class MbtiCategoriesPage extends StatelessWidget {
                     Expanded(
                       child: GridView.builder(
                         itemCount: 16, // Total golongan MBTI
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4, // 4 kolom
                           crossAxisSpacing: 8,
                           mainAxisSpacing: 16,
@@ -103,7 +105,7 @@ class MbtiCategoriesPage extends StatelessWidget {
                               // Label MBTI
                               Text(
                                 mbtiTypes[index],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
@@ -122,7 +124,7 @@ class MbtiCategoriesPage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  QuestionMbti()), // Ganti dengan halaman tes MBTI Anda
+                                  const QuestionMbti()), // Ganti dengan halaman tes MBTI Anda
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -135,7 +137,7 @@ class MbtiCategoriesPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Mulai Tes',
                         style: TextStyle(
                           fontSize: 16,

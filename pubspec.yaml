@@ -72,6 +72,7 @@ flutter:
     - assets/icons/google.png
     - assets/icons/apple.png
     - assets/icons/facebook.png
+    - assets/avatars/anon.png
     - assets/avatars/istj.png
     - assets/avatars/isfj.png
     - assets/avatars/infj.png

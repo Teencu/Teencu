@@ -9,12 +9,12 @@ class ResultMbti extends StatelessWidget {
   final List<String> compatibleTypes; // Daftar kepribadian yang cocok
 
   const ResultMbti({
-    Key? key,
+    super.key,
     required this.mbtiType,
     required this.name,
     required this.description,
     required this.compatibleTypes,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ResultMbti extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.pink,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Hasil MBTI',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class ResultMbti extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context); // Kembali ke halaman sebelumnya
           },
@@ -51,7 +51,7 @@ class ResultMbti extends StatelessWidget {
           // Konten utama
           Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Gambar/logo di atas
               Image.asset(
                 "assets/teencu_logo.png", // Gambar/logo
@@ -64,8 +64,8 @@ class ResultMbti extends StatelessWidget {
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(24),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
                     color: Colors.pink,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(30),
@@ -89,7 +89,7 @@ class ResultMbti extends StatelessWidget {
                         // Nama MBTI di bawah avatar
                         Text(
                           mbtiType,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -101,7 +101,7 @@ class ResultMbti extends StatelessWidget {
                         // Judul (diambil dari `name`)
                         Text(
                           name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -114,7 +114,7 @@ class ResultMbti extends StatelessWidget {
                         // Deskripsi kepribadian
                         Text(
                           description,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                             height: 1.5,
@@ -187,7 +187,7 @@ class ResultMbti extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'Selesai',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -206,13 +206,13 @@ class ResultMbti extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 16, horizontal: 24),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'Chat',
                                 style: TextStyle(
                                   fontSize: 16,

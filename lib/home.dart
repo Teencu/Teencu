@@ -8,8 +8,11 @@ import 'package:teencu/profile_page.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  User? user = FirebaseAuth.instance.currentUser;
+  final User user = FirebaseAuth.instance.currentUser!;
   String mbti = '';
+
+  HomePage({super.key});
+
   
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class HomePage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(width: 40), // Placeholder kosong untuk simetri
+              const SizedBox(width: 40), // Placeholder kosong untuk simetri
               Image.asset(
                 "assets/teencu_logo.png", // Logo Teencu di tengah
                 height: 100,
@@ -39,10 +42,10 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: CircleAvatar(
+                child: const CircleAvatar(
                   radius: 20,
                   backgroundImage:
-                      AssetImage("assets/icons/profile_avatar.png"),
+                      AssetImage("assets/avatars/anon.png"),
                 ),
               ),
             ],
@@ -54,13 +57,13 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Image.asset(
               "assets/lightbulb.png",
               height: 200,
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Apa yang Ingin kamu lakukan ?",
               style: TextStyle(
                 fontSize: 18,
@@ -68,14 +71,14 @@ class HomePage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             // Tombol Tes MBTI
-            _buildButton(context, "Tes MBTI", Color.fromARGB(500, 248,55,88), () async {
+            _buildButton(context, "Tes MBTI", const Color.fromARGB(500, 248,55,88), () async {
               mbti = await getUserMbti();
                 if (mbti == ''){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MbtiExplanationPage()),
+                    MaterialPageRoute(builder: (context) => const MbtiExplanationPage()),
                   );
                   return;
                 } else {
@@ -83,25 +86,25 @@ class HomePage extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Peringatan'),
-                        content: Text('Apakah kamu ingin tes MBTI lagi?'),
+                        title: const Text('Peringatan'),
+                        content: const Text('Apakah kamu ingin tes MBTI lagi?'),
                         actions: [
                           TextButton(
                             style: TextButton.styleFrom(foregroundColor: Colors.black),
                             onPressed: () {
                               Navigator.pop(context); // Menutup dialog
                             },
-                            child: Text('Nggak dulu deh'),
+                            child: const Text('Nggak dulu deh'),
                           ),
                           TextButton(
                             style: TextButton.styleFrom(foregroundColor: Colors.black),
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) => MbtiExplanationPage()),
+                                MaterialPageRoute(builder: (context) => const MbtiExplanationPage()),
                               );
                             },
-                            child: Text('Iya nih'),
+                            child: const Text('Iya nih'),
                           ),
                         ],
                       );
@@ -109,38 +112,43 @@ class HomePage extends StatelessWidget {
                   );
                 }
               },),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Tombol Chat
-            _buildButton(context, "Chat", Color.fromARGB(500, 248,55,88), () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Peringatan'),
-                    content: Text('Kamu belum mengisi tes MBTI. Silahkan tes terlebih dahulu untuk menggunakan fitur chat.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          return;
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
+            _buildButton(context, "Chat", const Color.fromARGB(500, 248,55,88), () async {
+              mbti = await getUserMbti();
+              if (mbti == '') {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+
+                      return AlertDialog(
+                        title: const Text('Peringatan'),
+                        content: const Text(
+                            'Kamu belum mengisi tes MBTI. Silahkan tes terlebih dahulu untuk menggunakan fitur chat.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                );
+              } else {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MenuChat()),
-              );
+              );}
             }),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Tombol Leaderboard
-            _buildButton(context, "Leaderboard", Color.fromARGB(500, 248,55,88), () {
+            _buildButton(context, "Leaderboard", const Color.fromARGB(500, 248,55,88), () {
               // Navigasi ke halaman Leaderboard
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Leaderboard()),
+                MaterialPageRoute(builder: (context) => const Leaderboard()),
               );
             }),
           ],
@@ -157,24 +165,29 @@ class HomePage extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
         ),
         child: Text(
           text,
-          style: TextStyle(fontSize: 16, color: Colors.white),
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
     );
   }
 
-  Future<String> getUserMbti() async{
-    DocumentSnapshot doc = await firestore.collection('users').doc(user!.uid).get();
-    if (doc.exists && doc.data() != null) {
-      mbti = doc.get('lastMbti') as String;
+  Future<String> getUserMbti() async {
+    try {
+      DocumentSnapshot doc = await firestore.collection('users').doc(user.uid).get();
+      if (doc.exists && doc.data() != null) {
+        return doc.get('lastMbti') ?? '';
+      }
+    } catch (e) {
+      debugPrint('Error getting MBTI: $e');
     }
-    return mbti;
+    return '';
   }
+
 }
